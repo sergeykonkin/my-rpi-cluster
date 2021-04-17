@@ -1,0 +1,43 @@
+---
+- name: Configure Nomad
+  tags:
+    - nomad_install
+    - nomad_configure
+  block:
+    - name: Create Nomad config and data dirs
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ nomad_user }}"
+        group: "{{ nomad_group }}"
+        mode: 0755
+      loop:
+        - "{{ nomad_config_dir }}"
+        - "{{ nomad_data_dir }}"
+
+    - name: Create Nomad config
+      template:
+        src: config.hcl.j2
+        dest: "{{ nomad_config_dir }}/config.hcl"
+        owner: "{{ nomad_user }}"
+        group: "{{ nomad_group }}"
+        mode: 0644
+      notify: nomad_restart
+
+    - name: Create Nomad systemd service
+      template:
+        src: nomad.systemd.j2
+        dest: "/etc/systemd/system/nomad.service"
+        mode: 0644
+      register: __nomad_systemd_service
+      notify: nomad_restart
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: true
+      when: __nomad_systemd_service.changed
+
+    - name: Enable Nomad service
+      systemd:
+        name: nomad.service
+        enabled: true

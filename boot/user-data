@@ -1,0 +1,14 @@
+#cloud-config
+
+# Set the hostname and fqdn
+manage_etc_hosts: true
+hostname: rpi-1
+fqdn: rpi-1.home.local
+
+# Add SSH authorized keys to default user
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCzIe571oYye6NHkfPqrHSJfycv/pbUfP2ryuBU1lwfo2p1YFp93onMKINLdcxOYf/VRgRsFrQFkQD5QS9iccDyLdwUp0bx8/O9+XWCr5IkZ1oUFchkDmT85taD6CeDy9Hlmc67uiFju/t8nLtgbJ904tGOCMd6klGHO5MV5iNcRDx61f6urmyDbAWuqB3tZPQzG2FVPUoTzH2SgTQu3H/UPBRyPu/UajiU7fbqvi4g5zvqxcyb17FyftkOgy6FZMJz+IEqLtnpd/x0nTen7ykBv3hnkkaZn4RqZZByyTnIrI9i5UEOhcd5cxaO1QxJAb4Rc07JzxjS6LU9PHYbZxdOD0Q/ClB3dAf9/N0cZYwnIMWsta+3Y9NKoxWV61HBaHb7IOSbrubYwH9VhoUXAreDSNyORi9khDjLj50YakYY+c2ib79aEut9n763bEqxyyw2JJUSn5Plms0JslgBKHVEE9+h2/MImEXkeYjMadoi12Ko9qZ/ZkL5KcreE9oPSUGh2/tOmRV3sxEEfLg+P2XiQW6LZUU4NuvWw6aRgmbAMxodCpY2KimeeMOAcjQ+MMjVpB1DTXrHXL+lylBowom/2hybLkC6g5vLuG4FROFHvnwCppfHjNrFruhnCR7OTYqG6Z27v0Z7B39Y/rdSHeuK4RWSzcA86JMVT7x9tMocvw== rpi
+
+# Disable initial upgrade
+package_update: false
+package_upgrade: false

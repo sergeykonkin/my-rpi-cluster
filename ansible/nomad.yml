@@ -1,0 +1,12 @@
+---
+- name: Setup Nomad Servers
+  hosts: nomad_servers
+  become: true
+
+  vars:
+    nomad_region: local
+    nomad_datacenter: home
+    nomad_node_role: both
+
+  roles:
+    - role: nomad

@@ -1,0 +1,27 @@
+---
+- name: Install preflight tasks
+  tags:
+    - nomad_install
+  block:
+    - name: Gather service facts
+      service_facts:
+
+    - name: Add docker group to nomad user groups
+      set_fact:
+        _nomad_groups: "{{ _nomad_groups + ['docker'] }}"
+      when: "'docker' in services"
+
+    - name: Install unzip package
+      package:
+        name: unzip
+
+    - name: Get latest version of Nomad from HashiCorp Checkpoint API
+      uri:
+        url: https://checkpoint-api.hashicorp.com/v1/check/nomad
+      register: __nomad_checkpoint
+      when: nomad_version == 'latest'
+
+    - name: Set nomad_version to {{ __nomad_checkpoint.json.current_version }}
+      set_fact:
+        nomad_version: "{{ __nomad_checkpoint.json.current_version }}"
+      when: nomad_version == 'latest'

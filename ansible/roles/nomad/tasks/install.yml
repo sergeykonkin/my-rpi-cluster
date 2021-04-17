@@ -1,0 +1,30 @@
+---
+- name: Install Nomad
+  tags:
+    - nomad_install
+  block:
+    - name: Create Nomad system group
+      group:
+        name: "{{ nomad_group }}"
+      when: nomad_group != 'root'
+
+    - name: Create Nomad system user
+      user:
+        name: "{{ nomad_user }}"
+        groups: "{{ _nomad_groups }}"
+      when: nomad_user != 'root'
+
+    - name: Download Nomad binary
+      get_url:
+        url: "{{ _nomad_download_url }}"
+        dest: "{{ _nomad_download_dest }}"
+        checksum: "{{ _nomad_checksum_url }}"
+
+    - name: Unarchive Nomad binary
+      unarchive:
+        remote_src: true
+        src: "{{ _nomad_download_dest }}"
+        dest: "{{ nomad_bin_dir }}"
+        owner: "{{ nomad_user }}"
+        group: "{{ nomad_group }}"
+        mode: 0755

@@ -1,0 +1,16 @@
+_nomad_groups: ["{{ nomad_group }}"]
+
+_nomad_arch_map:
+  i386: "386"
+  x86_64: "amd64"
+  aarch64: "arm64"
+  armv7l: "armv7"
+  armv6l: "armv6"
+_nomad_arch: "{{ _nomad_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+
+_nomad_download_url: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ _nomad_arch }}.zip
+_nomad_checksum_url: sha256:https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_SHA256SUMS
+_nomad_download_dest: /tmp/nomad_{{ nomad_version }}_linux_{{ _nomad_arch }}.zip
+
+_nomad_server_enabled: "{{ nomad_node_role in ['server', 'both'] }}"
+_nomad_client_enabled: "{{ nomad_node_role in ['client', 'both'] }}"

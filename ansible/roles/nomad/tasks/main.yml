@@ -1,0 +1,16 @@
+---
+- name: Include preflight tasks
+  include_tasks: preflight.yml
+  tags:
+    - nomad_install
+
+- name: Include install tasks
+  include_tasks: install.yml
+  tags:
+    - nomad_install
+
+- name: Include configure tasks
+  include_tasks: configure.yml
+  tags:
+    - nomad_install
+    - nomad_configure

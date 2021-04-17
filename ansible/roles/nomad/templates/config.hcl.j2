@@ -1,0 +1,34 @@
+data_dir = "{{ nomad_data_dir }}"
+region = "{{ nomad_region }}"
+datacenter = "{{ nomad_datacenter }}"
+
+bind_addr = "{{ nomad_bind_addr }}"
+
+leave_on_interrupt = {{ leave_on_interrupt | bool | to_json }}
+leave_on_terminate = {{ leave_on_terminate | bool | to_json }}
+
+{% if _nomad_server_enabled %}
+server {
+  enabled = true
+  bootstrap_expect = {{ nomad_servers | length }}
+
+  server_join {
+    retry_join = {{ nomad_retry_join | to_json }}
+    retry_max = 3
+    retry_interval = "15s"
+  }
+}
+{% endif %}
+
+{% if _nomad_client_enabled %}
+client {
+  enabled = true
+  servers = {{ nomad_servers | to_json }}
+}
+{% endif %}
+
+ports {
+  http = {{ nomad_port_http | int }}
+  rpc  = {{ nomad_port_rpc | int }}
+  serf = {{ nomad_port_serf | int }}
+}

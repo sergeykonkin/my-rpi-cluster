@@ -1,0 +1,11 @@
+---
+- name: Setup Docker
+  hosts: all
+  become: true
+
+  vars:
+    docker_apt_arch: arm64
+
+  roles:
+    - role: geerlingguy.pip
+    - role: geerlingguy.docker

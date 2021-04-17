@@ -1,0 +1,6 @@
+---
+- name: Restart Nomad service
+  systemd:
+    name: nomad.service
+    state: restarted
+  listen: nomad_restart
