@@ -32,3 +32,11 @@ ports {
   rpc  = {{ nomad_port_rpc | int }}
   serf = {{ nomad_port_serf | int }}
 }
+
+{% if nomad_plugin_raw_exec_enabled %}
+plugin "raw_exec" {
+  config {
+    enabled = true
+  }
+}
+{% endif %}

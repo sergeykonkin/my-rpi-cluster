@@ -20,3 +20,5 @@ nomad_retry_join: "{{ nomad_servers }}"
 nomad_port_http: 4646
 nomad_port_rpc: 4647
 nomad_port_serf: 4648
+
+nomad_plugin_raw_exec_enabled: false
