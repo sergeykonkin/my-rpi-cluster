@@ -1,4 +1,5 @@
 nomad_version: latest
+nomad_log_level: INFO
 
 nomad_bin_dir: /usr/local/bin
 nomad_config_dir: /etc/nomad.d
