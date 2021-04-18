@@ -48,6 +48,10 @@ scrape_configs:
       - server: '{{ env "NOMAD_IP_http" }}:8500'
         services: ['nomad-client', 'nomad']
     relabel_configs:
+      - source_labels: ['__meta_consul_node']
+        regex:         '(.*)'
+        target_label:  'instance'
+        replacement:   '$1'
       - source_labels: ['__meta_consul_tags']
         regex: '(.*)http(.*)'
         action: keep
@@ -61,6 +65,14 @@ scrape_configs:
       - source_labels: ['__meta_consul_service']
         regex:         '(.*)'
         target_label:  'job'
+        replacement:   '$1'
+      - source_labels: ['__meta_consul_node']
+        regex:         '(.*)'
+        target_label:  'instance'
+        replacement:   '$1'
+      - source_labels: ['__meta_consul_service_metadata_alloc_id']
+        regex:         '(.*)'
+        target_label:  'alloc_id'
         replacement:   '$1'
 EOH
       }

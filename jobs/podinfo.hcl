@@ -26,6 +26,9 @@ job "podinfo" {
           "prometheus-scrape",
           "urlprefix-/podinfo/ strip=/podinfo",
         ]
+        meta {
+          alloc_id = "${NOMAD_ALLOC_ID}"
+        }
         check {
           type     = "http"
           path     = "/healthz"
