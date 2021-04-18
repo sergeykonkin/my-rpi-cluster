@@ -1,3 +1,3 @@
-# My Raspbery Pi HashiStack cluster
+# My Raspberry Pi HashiStack cluster
 
 Under development...
