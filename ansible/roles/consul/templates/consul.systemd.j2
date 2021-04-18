@@ -1,14 +1,14 @@
 [Unit]
-Description=Nomad
-Documentation=https://www.nomadproject.io/docs
+Description=Consul
+Documentation=https://www.consul.io/docs
 Wants=network-online.target
-After=network-online.target consul.service
+After=network-online.target
 
 [Service]
-User={{ nomad_user }}
-Group={{ nomad_group }}
+User={{ consul_user }}
+Group={{ consul_group }}
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart={{ nomad_bin_dir }}/nomad agent -config {{ nomad_config_dir }}
+ExecStart={{ consul_bin_dir }}/consul agent -config-dir {{ consul_config_dir }}
 KillMode=process
 KillSignal=SIGINT
 LimitNOFILE=infinity

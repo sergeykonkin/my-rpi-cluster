@@ -1,0 +1,11 @@
+---
+- name: Setup Consul
+  hosts: consul_servers
+  become: true
+
+  vars:
+    consul_datacenter: home
+    consul_node_role: server
+
+  roles:
+    - role: consul

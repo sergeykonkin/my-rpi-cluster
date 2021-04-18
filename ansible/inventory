@@ -1,5 +1,11 @@
-[nomad_servers]
+[rpis]
 192.168.1.101
+
+[consul_servers:children]
+rpis
+
+[nomad_servers:children]
+rpis
 
 [all:vars]
 ansible_ssh_user=ubuntu

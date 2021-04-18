@@ -1,4 +1,5 @@
 ---
 - import_playbook: init.yml
 - import_playbook: docker.yml
+- import_playbook: consul.yml
 - import_playbook: nomad.yml

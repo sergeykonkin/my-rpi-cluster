@@ -1,0 +1,17 @@
+---
+- name: Include preflight tasks
+  include_tasks: preflight.yml
+  tags:
+    - consul_install
+    - consul_configure
+
+- name: Include install tasks
+  include_tasks: install.yml
+  tags:
+    - consul_install
+
+- name: Include configure tasks
+  include_tasks: configure.yml
+  tags:
+    - consul_install
+    - consul_configure

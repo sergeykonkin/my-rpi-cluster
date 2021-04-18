@@ -1,0 +1,30 @@
+---
+- name: Install Consul
+  tags:
+    - consul_install
+  block:
+    - name: Create Consul system group
+      group:
+        name: "{{ consul_group }}"
+      when: consul_group != 'root'
+
+    - name: Create Consul system user
+      user:
+        name: "{{ consul_user }}"
+        groups: "{{ _consul_groups }}"
+      when: consul_user != 'root'
+
+    - name: Download Consul binary
+      get_url:
+        url: "{{ _consul_download_url }}"
+        dest: "{{ _consul_download_dest }}"
+        checksum: "{{ _consul_checksum_url }}"
+
+    - name: Unarchive Consul binary
+      unarchive:
+        remote_src: true
+        src: "{{ _consul_download_dest }}"
+        dest: "{{ consul_bin_dir }}"
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0755

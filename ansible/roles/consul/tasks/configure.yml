@@ -1,0 +1,43 @@
+---
+- name: Configure Consul
+  tags:
+    - consul_install
+    - consul_configure
+  block:
+    - name: Create Consul config and data dirs
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0755
+      loop:
+        - "{{ consul_config_dir }}"
+        - "{{ consul_data_dir }}"
+
+    - name: Create Consul config
+      template:
+        src: config.hcl.j2
+        dest: "{{ consul_config_dir }}/config.hcl"
+        owner: "{{ consul_user }}"
+        group: "{{ consul_group }}"
+        mode: 0644
+      notify: consul_restart
+
+    - name: Create Consul systemd service
+      template:
+        src: consul.systemd.j2
+        dest: "/etc/systemd/system/consul.service"
+        mode: 0644
+      register: __consul_systemd_service
+      notify: consul_restart
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: true
+      when: __consul_systemd_service.changed
+
+    - name: Enable Consul service
+      systemd:
+        name: consul.service
+        enabled: true

@@ -1,0 +1,30 @@
+datacenter = "{{ consul_datacenter }}"
+data_dir = "{{ consul_data_dir }}"
+log_level = "{{ consul_log_level }}"
+bind_addr = "{{ consul_bind_addr }}"
+client_addr = "{{ consul_client_addr }}"
+
+retry_join = {{ consul_retry_join | to_json }}
+retry_interval = "15s"
+
+{% if _consul_server_enabled %}
+server = true
+bootstrap_expect = {{ consul_retry_join | length }}
+{% endif %}
+
+{% if _consul_client_enabled %}
+client = true
+{% endif %}
+
+ui = {{ consul_ui_enabled | bool | to_json }}
+
+ports {
+  http = {{ consul_port_http | int }}
+  dns = {{ consul_port_dns | int }}
+  server = {{ consul_port_server | int }}
+  serf_lan = {{ consul_port_serf_lan | int }}
+  serf_wan = {{ consul_port_serf_wan | int }}
+}
+
+skip_leave_on_interrupt = {{ consul_skip_leave_on_interrupt | bool | to_json }}
+leave_on_terminate = {{ consul_leave_on_terminate | bool | to_json }}

@@ -1,0 +1,28 @@
+---
+- name: Validate node role
+  tags:
+    - consul_install
+    - consul_configure
+  assert:
+    that:
+      - consul_node_role in ['client', 'server']
+    quiet: true
+
+- name: Install preflight tasks
+  tags:
+    - consul_install
+  block:
+    - name: Install unzip package
+      package:
+        name: unzip
+
+    - name: Get latest version of Consul from HashiCorp Checkpoint API
+      uri:
+        url: https://checkpoint-api.hashicorp.com/v1/check/consul
+      register: __consul_checkpoint
+      when: consul_version == 'latest'
+
+    - name: Set consul_version variable
+      set_fact:
+        consul_version: "{{ __consul_checkpoint.json.current_version }}"
+      when: consul_version == 'latest'

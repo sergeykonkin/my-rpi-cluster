@@ -1,0 +1,16 @@
+_consul_groups: ["{{ consul_group }}"]
+
+_consul_arch_map:
+  i386: "386"
+  x86_64: "amd64"
+  aarch64: "arm64"
+  armv7l: "armv7"
+  armv6l: "armv6"
+_consul_arch: "{{ _consul_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+
+_consul_download_url: https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_{{ _consul_arch }}.zip
+_consul_checksum_url: sha256:https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_SHA256SUMS
+_consul_download_dest: /tmp/consul_{{ consul_version }}_linux_{{ _consul_arch }}.zip
+
+_consul_server_enabled: "{{ consul_node_role in ['server'] }}"
+_consul_client_enabled: "{{ consul_node_role in ['client'] }}"
