@@ -5,6 +5,7 @@
 
   vars:
     docker_apt_arch: arm64
+    docker_install_compose: false
     pip_install_packages:
       - name: docker
 
