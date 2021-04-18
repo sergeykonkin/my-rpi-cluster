@@ -5,6 +5,8 @@
 
   vars:
     docker_apt_arch: arm64
+    pip_install_packages:
+      - name: docker
 
   roles:
     - role: geerlingguy.pip
