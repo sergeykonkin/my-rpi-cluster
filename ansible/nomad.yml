@@ -1,5 +1,5 @@
 ---
-- name: Setup Nomad Servers
+- name: Setup Nomad
   hosts: nomad_servers
   become: true
 

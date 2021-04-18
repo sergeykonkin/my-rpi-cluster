@@ -3,6 +3,7 @@
   include_tasks: preflight.yml
   tags:
     - nomad_install
+    - nomad_configure
 
 - name: Include install tasks
   include_tasks: install.yml
