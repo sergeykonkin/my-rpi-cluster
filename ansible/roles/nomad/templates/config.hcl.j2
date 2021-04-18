@@ -21,6 +21,13 @@ server {
 client {
   enabled = true
   servers = {{ nomad_servers | to_json }}
+
+{% for volume in nomad_host_volumes %}
+  host_volume "{{ volume.name }}" {
+    path      = "{{ volume.path }}"
+    read_only = {{ volume.read_only | bool | to_json }}
+  }
+{% endfor %}
 }
 {% endif %}
 

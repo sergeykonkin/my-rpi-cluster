@@ -6,9 +6,10 @@ job "grafana" {
   group "grafana" {
     count = 1
 
-    ephemeral_disk {
-      migrate = true
-      sticky  = true
+    volume "grafana" {
+      type      = "host"
+      source    = "grafana"
+      read_only = false
     }
 
     network {
@@ -23,6 +24,12 @@ job "grafana" {
       config {
         image = "grafana/grafana:latest"
         ports = ["http"]
+      }
+
+      volume_mount {
+        volume      = "grafana"
+        destination = "/var/lib/grafana"
+        read_only   = false
       }
 
       env {

@@ -15,6 +15,18 @@
         - "{{ nomad_config_dir }}"
         - "{{ nomad_data_dir }}"
 
+    - name: Create Nomad host volumes
+      file:
+        path: "{{ item.path }}"
+        state: directory
+        owner: "{{ item.owner | default(nomad_user) }}"
+        group: "{{ item.group | default(nomad_group) }}"
+        mode: 0755
+      loop: "{{ nomad_host_volumes }}"
+      loop_control:
+        label: "{{ item.name }}"
+      notify: nomad_restart
+
     - name: Create Nomad config
       template:
         src: config.hcl.j2

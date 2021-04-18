@@ -6,10 +6,10 @@ job "prometheus" {
   group "prometheus" {
     count = 1
 
-    ephemeral_disk {
-      migrate = true
-      sticky  = true
-      size    = 2048
+    volume "prometheus" {
+      type      = "host"
+      source    = "prometheus"
+      read_only = false
     }
 
     network {
@@ -32,6 +32,12 @@ job "prometheus" {
         volumes = [
           "local/prometheus.yml:/etc/prometheus/prometheus.yml",
         ]
+      }
+
+      volume_mount {
+        volume      = "prometheus"
+        destination = "/prometheus"
+        read_only   = false
       }
 
       template {

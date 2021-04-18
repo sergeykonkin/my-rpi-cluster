@@ -1,0 +1,12 @@
+nomad_host_volumes:
+  - name: prometheus
+    path: /opt/prometheus
+    read_only: false
+    owner: nobody
+    group: nogroup
+
+  - name: grafana
+    path: /opt/grafana
+    read_only: false
+    owner: 472
+    group: root
