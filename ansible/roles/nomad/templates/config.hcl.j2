@@ -1,12 +1,8 @@
-log_level = "{{ nomad_log_level }}"
-data_dir = "{{ nomad_data_dir }}"
 region = "{{ nomad_region }}"
 datacenter = "{{ nomad_datacenter }}"
-
+data_dir = "{{ nomad_data_dir }}"
+log_level = "{{ nomad_log_level }}"
 bind_addr = "{{ nomad_bind_addr }}"
-
-leave_on_interrupt = {{ nomad_leave_on_interrupt | bool | to_json }}
-leave_on_terminate = {{ nomad_leave_on_terminate | bool | to_json }}
 
 {% if _nomad_server_enabled %}
 server {
@@ -41,3 +37,6 @@ plugin "raw_exec" {
   }
 }
 {% endif %}
+
+leave_on_interrupt = {{ nomad_leave_on_interrupt | bool | to_json }}
+leave_on_terminate = {{ nomad_leave_on_terminate | bool | to_json }}
