@@ -11,7 +11,7 @@ job "podinfo" {
       }
     }
 
-    task "server" {
+    task "podinfo" {
       driver = "docker"
 
       config {
@@ -23,6 +23,7 @@ job "podinfo" {
         name = "podinfo"
         port = "http"
         tags = [
+          "prometheus-scrape",
           "urlprefix-/podinfo/ strip=/podinfo",
         ]
         check {
