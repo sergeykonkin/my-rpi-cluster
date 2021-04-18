@@ -15,4 +15,4 @@ package_upgrade: false
 
 # Remove unattended-upgrades package
 runcmd:
-  - apt remove -y unattended-upgrades
+  - apt-get remove -y unattended-upgrades
