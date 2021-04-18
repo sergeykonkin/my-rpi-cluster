@@ -3,17 +3,17 @@ job "prometheus" {
   datacenters = ["home"]
   type        = "service"
 
-  group "grafana" {
+  group "prometheus" {
     count = 1
 
     ephemeral_disk {
       migrate = true
       sticky  = true
+      size    = 2048
     }
 
     network {
       port  "http" {
-        static = 9090
         to = 9090
       }
     }
@@ -24,6 +24,11 @@ job "prometheus" {
       config {
         image = "prom/prometheus:latest"
         ports = ["http"]
+        args = [
+          "--config.file", "/etc/prometheus/prometheus.yml",
+          "--storage.tsdb.retention.time", "2d",
+          "--web.external-url", "http://${NOMAD_IP_http}:${NOMAD_PORT_http}/prometheus"
+        ]
         volumes = [
           "local/prometheus.yml:/etc/prometheus/prometheus.yml",
         ]
@@ -79,11 +84,14 @@ EOH
 
       service {
         name = "prometheus"
-        tags = ["monitoring"]
+        tags = [
+          "monitoring",
+          "urlprefix-/prometheus",
+        ]
         port = "http"
         check {
           type     = "http"
-          path     = "/-/healthy"
+          path     = "/prometheus/-/healthy"
           interval = "2s"
           timeout  = "2s"
         }
